@@ -1,0 +1,240 @@
+Link-in-Bio App — Product Requirements Document (Blueprint)
+1. Overview & Value Proposition
+
+
+Concept: A premium, designer-quality link-in-bio application (similar to Linktree but with superior aesthetics).
+
+
+Target Audience: Creators, freelancers, small business owners.
+
+
+Value: A single, beautiful page to house all links, social profiles, and a payment button, hosted at domain.com/page/username.
+
+
+2. Business Model & Access
+
+
+Free Building: Anyone can visit /dashboard and build their entire page (add links, pick themes, preview) without an account.
+
+
+Account Creation (Save): To save their work as a private draft, users must create an account (email, password, username).
+
+
+Paid Publishing (Publish): To make the page live for the public at their custom URL, users must pay a $12/year subscription.
+
+
+Two Core Actions:
+
+
+
+Save: Stores the page as a private draft (requires login, free).
+
+
+Publish: Pushes the page live (requires login + $12/year subscription).
+
+
+
+
+
+
+3. Architecture & Tech Stack
+
+
+Frontend: Next.js (React), Tailwind CSS
+
+
+Database & Auth: Supabase (PostgreSQL, Row Level Security)
+
+
+Payments: Stripe (Checkout for subscription, Payment Links for creators)
+
+
+Deployment: Vercel
+
+
+4. Pages & Routing
+
+
+/ - Marketing Landing Page
+
+
+/login - User authentication
+
+
+/signup - Account creation (including username selection)
+
+
+/dashboard - The main builder interface (Links, Profile, Appearance, Payments, Account tabs)
+
+
+/page/[username] - The live public page (different for every user)
+
+
+5. Design System & Aesthetics
+
+
+Vibe: Human, warm, premium. Looks designed in Figma, not "AI slop" or cold corporate blue.
+
+
+Typography:
+
+
+
+Display/Headings: Instrument Serif (Weight 400). Used for page titles, display names, landing page headings. (Tracking: -0.02em, Leading: 1.1).
+
+
+Body/UI: Plus Jakarta Sans (Weights 400, 500, 600, 700). Used for all body text, buttons, links, dashboard UI. (Tracking: 0 to -0.01em, Leading: 1.5).
+
+
+Note: No system font defaults (Inter, Arial).
+
+
+
+
+
+
+Color Palette (Warm & Earthy):
+
+
+
+Background Cream: #FBF8F4
+
+
+Surface White: #FFFFFF
+
+
+Primary Accent (Warm Coral): #E8735A
+
+
+Secondary Accent (Soft Sage): #8BA888
+
+
+Tertiary Accent (Golden Amber): #D4A853
+
+
+Text: #1A1A1A (Primary), #4A4A4A (Secondary), #7A7A7A (Muted). Never pure black. On dark backgrounds: #FAFAFA (Primary), #CCCCCC (Secondary).
+
+
+Card Background: rgba(255, 255, 255, 0.85) with backdrop-filter: blur(8px).
+
+
+
+
+
+
+Animations: Calm and intentional. Staggered fade-in on page load (from 20px below, 500ms duration, staggered by 80-100ms). No spinning, bouncing, or neon glows.
+
+
+6. Icons (Strict Rules)
+
+
+Brand Icons: MUST use react-icons (e.g., FaInstagram, FaTiktok, SiOnlyfans, etc.). Never generate custom SVGs or use placeholders.
+
+
+UI Icons: MUST use react-icons/hi2 (Heroicons v2) for all UI elements (settings, trash, plus, etc.). Do not mix icon sets.
+
+
+Auto-detection: The app detects the platform from the entered URL and automatically displays the correct brand icon.
+
+
+7. The Public Page (/page/[username])
+
+
+Profile Header: Circular photo (88px, 3px white border, subtle shadow), Display Name (Instrument Serif), Bio (1-3 sentences).
+
+
+Social Row: Brand icons (20px) with 16px gap.
+
+
+Link Cards: Glassmorphism effect. Icon on left, centered title, arrow on right. Hover effect: slight lift (translateY(-2px)) and tinted shadow (rgba(232, 115, 90, 0.12)).
+
+
+Optional Sections: Extra text block, secondary photo, or "Publications/Press" links.
+
+
+Payment Button: Distinctive styling, links to creator's Stripe payment link.
+
+
+Backgrounds: 10 curated CSS gradients (Warm sunrise, Cool ocean, Soft sage, etc.), solid colors, or user uploads.
+
+
+8. The Dashboard (/dashboard)
+
+
+Layout: Two-column on desktop. Left (60%): Navigation tabs + Editing panel. Right (40%): Fixed, live iPhone preview.
+
+
+Global Actions: "Save" and "Publish" buttons live in the header. No per-tab save buttons.
+
+
+Tabs:
+
+
+
+Links: Add, edit, delete, reorder (drag & drop), and toggle visibility of links. Real-time platform icon detection.
+
+
+Profile: Avatar upload (cropped square, max 5MB), Display Name, Bio, Social handles, Extra text/photo, Publications.
+
+
+Appearance: Select background (swatches, color picker, or upload), select Color Theme.
+
+
+Payments: Input Stripe payment link URL and button label. Isolated preview of the button.
+
+
+Account: Email (read-only), Change Password, Subscription management (Upgrade/Cancel), Delete Account.
+
+
+
+
+
+
+Live Previews:
+
+
+
+Inline (Desktop): Right-side iPhone frame updates instantly on every keystroke/change.
+
+
+Full-Screen: Triggered by "Preview" button in header. Overlay with Phone and Desktop view toggles.
+
+
+
+
+
+
+9. The Landing Page (/)
+
+
+Goal: Minimalist, clear, high-conversion marketing page.
+
+
+Header: Logo + "Get Started" button (or Account info if logged in). No mega-menus.
+
+
+Hero: "Your corner of the internet." (Instrument Serif) + 1 sentence subheadline + CTA + Real product screenshots.
+
+
+Example Pages: Display 3 beautiful example profiles to prove the aesthetic value.
+
+
+How it Works: 3 simple steps (1. Build, 2. Sign up, 3. Publish for $12/yr).
+
+
+Features: Clean grid, 3-4 key features.
+
+
+Footer: Minimal.
+
+
+10. Security & Data Integrity
+
+
+Isolation: Users can only view and edit their own data (Row Level Security enforced).
+
+
+Secrets: All API keys in environment variables, never hardcoded.
+
+
+Access: Public pages are strictly read-only. Unpaid pages remain as drafts and cannot be accessed publicly.
